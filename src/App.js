@@ -1,26 +1,20 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ReactSearchBox from 'react-search-box'       // prebuilt searchbox React
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    /*return (
+        <ReactSearchBox
+            placeholder="Search"
+            value="Doe"
+            data={{1: "yes", 2: "no"}}      // this might be where API data goes?
+            callback={record => console.log(record)}
+        />
+    );*/
+
+    return <h1>Hello</h1>;
 }
 
 export default App;
