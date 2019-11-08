@@ -11,6 +11,13 @@ const inputStyle = {        // styling for search input box
     border: 'solid black 3px'
 };
 
+const dummyData = [
+    new SearchResult("wii", "149", "amazon.com/xbox-1"),
+    new SearchResult("wii", "121", "seattle.craigslist.org/used-wii-3"),
+    new SearchResult("waffle maker", "21", "seattle.craigslist.org/good-waffle-maker-3"),
+    new SearchResult("waffle maker", "49", "ebay.com/really-good-waffle-maker")
+];
+
 class SearchForm extends React.Component {
     constructor(props) {
         super(props);
@@ -47,27 +54,46 @@ class SearchForm extends React.Component {
         // Craigslist
         if (this.state.site === 'craigslist' || phase1 === true) {
             console.log("Calling Craigslist API...");
-            //results = this.craigsList.searchItem(this.state.value);
         }
 
         // Render results to webpage
+
+        // Testing
+        for (let i = 0; i < dummyData.length; i++) {
+            if (dummyData[i].name === this.state.value) {
+                results.push(dummyData[i]);
+            }
+        }
+        //
+
         let items = [];     // contains JSX <li> objects
-        /*for (let i = 0; i < results.length; i++) {
+        for (let i = 0; i < results.length; i++) {
             console.log(results[i].price);
-            items.push(<li key={i}>Name:{results[i].name}, Price:{results[i].price}, Site:{results[i].site}</li>);
+            items.push(<li key={i}>Name: {results[i].name}, Price: {results[i].price}, Site: {results[i].site}</li>);
         }
 
-        ReactDOM.render(
-            <ul>
-                {items}
-            </ul>,
-            document.getElementById('results')
-        );*/
+        if (items.length > 0) {
+            ReactDOM.render(
+                <ul>
+                    {items}
+                </ul>,
+                document.getElementById('results')
+            );
+        } else {
+            alert('No results found');
+            ReactDOM.render(
+                <p>
 
-        ReactDOM.render(    // deprecated
+                </p>,
+                document.getElementById('results')
+            );
+        }
+
+
+        /*ReactDOM.render(    // deprecated
             <h1>{"Searching for " + this.state.value + " on " + this.state.site}</h1>,
             document.getElementById('results')
-        );
+        );*/
 
         event.preventDefault();     // not sure what this does...
     }

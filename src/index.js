@@ -10,7 +10,7 @@ const headerStyle = {
 }
 
 ReactDOM.render(
-    <h1 style={headerStyle}>Cadabra</h1>,
+    <h1 style={headerStyle}> Cadabra </h1>,
     document.getElementById('root')
 );
 
