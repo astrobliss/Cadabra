@@ -6,7 +6,11 @@
 - A webpage built with React that searches for the best 
 
 ## To Run
-- Local machine: >npm start (in the terminal)
+- For sprint 1 we are using dummy data to replicate an API response. 'wii' and 'waffle maker' (no quotes) are the two options for dummy data.
+### Github Page Build
+- Navigate to https://pages.github.tamu.edu/lbessell/lbessell.github.io/
+### Local Machine
+- In the terminal: >npm start (in the terminal)
 
 ## To Deploy to Github Pages
 - In the terminal: >npm run deploy
