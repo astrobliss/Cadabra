@@ -112,11 +112,20 @@ class SearchForm extends React.Component {
                     <label>
                         <input style={inputStyle} type="text" value={this.state.value} onChange={this.handleChange} />
                     </label>
+
+
                     <input type="submit" value="Search" /><br /><br />
+
+                    Price: <input type="number" name="min_price" placeholder="min" className ="PriceRange" title="Enter whole
+                    number, no letters, no symbols"/>
+                    ~<input type="number" name="max_price" placeholder="max" className ="PriceRange" title="Enter whole
+                    number, no letters, no symbols"/><br /><br />
 
                     <label className="radio-inline">
                         <input type="radio" name="site" value="all" onChange={this.handleRadioChange} defaultChecked />  All
                     </label>
+
+
 
                     <label className="radio-inline">
                         <input type="radio" name="site" value="amazon" onChange={this.handleRadioChange} />  Amazon
