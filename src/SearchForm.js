@@ -22,8 +22,10 @@ class SearchForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: '',      // user input in the search box
-            site: 'all'     // site(s) to search
+            value: '',          // user input in the search box
+            site: 'all',        // site(s) to search
+            min: '',            // min price
+            max: ''             // max price
         };
 
         // API objects
@@ -32,17 +34,20 @@ class SearchForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRadioChange = this.handleRadioChange.bind(this);
+        this.handleMinChange = this.handleMinChange.bind(this);
+        this.handleMaxChange = this.handleMaxChange.bind(this);
     }
 
     handleChange(event) {
         this.setState({
             value: event.target.value,
-            site: this.state.site
+            site: this.state.site,
+            min: this.state.min,
+            max: this.state.max
         });
     }
 
     handleSubmit(event) {       // triggers when form is submitted
-        let phase1 = true;      // change this once other APIs are implemented
         let results = [];       // array of SearchResult objects
 
         // Call APIs, fill in results with the returned information
@@ -52,9 +57,6 @@ class SearchForm extends React.Component {
         // Ebay
 
         // Craigslist
-        if (this.state.site === 'craigslist' || phase1 === true) {
-            console.log("Calling Craigslist API...");
-        }
 
         // Render results to webpage
 
@@ -69,7 +71,42 @@ class SearchForm extends React.Component {
         let items = [];     // contains JSX <li> objects
         for (let i = 0; i < results.length; i++) {
             console.log(results[i].price);
-            items.push(<li key={i}>Name: {results[i].name}, Price: {results[i].price}, Site: {results[i].site}</li>);
+            let flag = false;
+
+            if (this.state.min.length > 0 && this.state.max.length > 0) {
+                let min = parseInt(this.state.min, 10);
+                let max = parseInt(this.state.max, 10);
+                if (parseInt(results[i].price, 10) >= min && parseInt(results[i].price, 10) <= max )
+                {
+                    flag = true;
+                }
+                else {
+                    flag = false;
+                }
+            }
+            else if (this.state.min.length > 0) {
+                let min = parseInt(this.state.min, 10);
+                if (parseInt(results[i].price, 10) >= min) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+            }
+            else if (this.state.max.length > 0) {
+                let max = parseInt(this.state.max, 10);
+                if (parseInt(results[i].price, 10) <= max) {
+                    flag = true;
+                } else {
+                    flag = false;
+                }
+            }
+            else {              // neither min nor max set
+                flag = true;
+            }
+
+            if (flag === true) {
+                items.push(<li key={i}>Name: {results[i].name}, Price: {results[i].price}, Site: {results[i].site}</li>);
+            }
         }
 
         if (items.length > 0) {
@@ -80,20 +117,14 @@ class SearchForm extends React.Component {
                 document.getElementById('results')
             );
         } else {
-            alert('No results found');
             ReactDOM.render(
                 <p>
 
                 </p>,
                 document.getElementById('results')
             );
+            alert('No results found');
         }
-
-
-        /*ReactDOM.render(    // deprecated
-            <h1>{"Searching for " + this.state.value + " on " + this.state.site}</h1>,
-            document.getElementById('results')
-        );*/
 
         event.preventDefault();     // not sure what this does...
     }
@@ -101,7 +132,27 @@ class SearchForm extends React.Component {
     handleRadioChange(event) {
         this.setState({
             value: this.state.value,
-            site: event.target.value
+            site: event.target.value,
+            min: this.state.min,
+            max: this.state.max
+        })
+    }
+
+    handleMinChange(event) {
+        this.setState({
+            value: this.state.value,
+            site: this.state.site,
+            min: event.target.value,
+            max: this.state.max
+        })
+    }
+
+    handleMaxChange(event) {
+        this.setState({
+            value: this.state.value,
+            site: this.state.site,
+            min: this.state.min,
+            max: event.target.value
         })
     }
 
@@ -117,15 +168,13 @@ class SearchForm extends React.Component {
                     <input type="submit" value="Search" /><br /><br />
 
                     Price: <input type="number" name="min_price" placeholder="min" className ="PriceRange" title="Enter whole
-                    number, no letters, no symbols"/>
+                    number, no letters, no symbols" value={this.state.min} onChange={this.handleMinChange}/>
                     ~<input type="number" name="max_price" placeholder="max" className ="PriceRange" title="Enter whole
-                    number, no letters, no symbols"/><br /><br />
+                    number, no letters, no symbols" value={this.state.max} onChange={this.handleMaxChange}/><br /><br />
 
                     <label className="radio-inline">
                         <input type="radio" name="site" value="all" onChange={this.handleRadioChange} defaultChecked />  All
                     </label>
-
-
 
                     <label className="radio-inline">
                         <input type="radio" name="site" value="amazon" onChange={this.handleRadioChange} />  Amazon

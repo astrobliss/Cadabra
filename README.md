@@ -3,7 +3,7 @@
 ## General Info
 - CSCE 315-906, Project 2, Team 1
 - URL: https://pages.github.tamu.edu/lbessell/lbessell.github.io/
-- A webpage built with React that searches for the best 
+- A webpage built with React that searches multiple online marketplaces.
 
 ## To Run
 - For sprint 1 we are using dummy data to replicate an API response. 'wii' and 'waffle maker' (no quotes) are the two options for dummy data.

@@ -1,7 +1,7 @@
 import craigslist from 'node-craigslist';
 import SearchResult from "./SearchResult";
 
-class CraigsList {
+class CraigsList {      // deprecated, feel free to replace this class or just create a different craigslist file
     constructor() {
         let craigslist = require('node-craigslist');
         this.client = new craigslist.Client({
