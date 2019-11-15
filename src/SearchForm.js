@@ -5,17 +5,11 @@ import Ebay from './Ebay';
 import CraigsList from './Craigslist';
 import './SearchForm.css';
 
-const inputStyle = {        // styling for search input box
-    width: '300px',
-    fontSize: 'large',
-    border: 'solid black 3px'
-};
-
 const dummyData = [
-    new SearchResult("wii", "149", "amazon.com/xbox-1"),
-    new SearchResult("wii", "121", "seattle.craigslist.org/used-wii-3"),
-    new SearchResult("waffle maker", "21", "seattle.craigslist.org/good-waffle-maker-3"),
-    new SearchResult("waffle maker", "49", "ebay.com/really-good-waffle-maker")
+    new SearchResult("wii", "149", "amazon", "amazon.com/xbox-1"),
+    new SearchResult("wii", "121", "craigslist", "seattle.craigslist.org/used-wii-3"),
+    new SearchResult("waffle maker", "21", "craigslist", "seattle.craigslist.org/good-waffle-maker-3"),
+    new SearchResult("waffle maker", "49", "ebay", "ebay.com/really-good-waffle-maker")
 ];
 
 // Constants, maybe put this in class later?
@@ -131,7 +125,7 @@ class SearchForm extends React.Component {
             }
 
             if (flag === true) {
-                items.push(<li key={i}>Name: {results[i].name}, Price: {results[i].price}, Site: {results[i].site}</li>);
+                items.push(<li key={i}>Name: {results[i].name}, Price: {results[i].price}, Site: <a href={results[i].url}>{results[i].site}</a></li>);
             }
         }
 
@@ -163,7 +157,6 @@ class SearchForm extends React.Component {
             max: this.state.max,
             productSort: this.state.productSort
         })
-        //console.log(event.target.value);
     }
 
     handleMinChange(event) {
@@ -217,12 +210,13 @@ class SearchForm extends React.Component {
             return (
                 <div className="SearchForm">
                     <form onSubmit={this.handleSubmit}>
-                        <label>
-                            <input style={inputStyle} type="text" value={this.state.value} onChange={this.handleChange} />
-                        </label>
+                        <div className="SearchBar">
+                            <label>
+                                <input type="text" placeholder="Search..." value={this.state.value} onChange={this.handleChange} />
+                            </label>
 
-                        <input type="submit" value="Search" /><br /><br />
-
+                            <button type="submit"><i className="fa fa-search"></i></button><br /><br />
+                        </div>
                         <label>
                             <a href="#" onClick={this.handleSearchChange}>Advanced</a>
                         </label><br /><br />
@@ -233,19 +227,18 @@ class SearchForm extends React.Component {
             return (
                 <div className="SearchForm">
                     <form onSubmit={this.handleSubmit}>
-                        <label>
-                            <input style={inputStyle} type="text" value={this.state.value} onChange={this.handleChange} />
-                        </label>
+                        <div className="SearchBar">
+                            <label>
+                                <input type="text" placeholder="Search..." value={this.state.value} onChange={this.handleChange} />
+                            </label>
 
-
-                        <input type="submit" value="Search" /><br /><br />
-
+                            <button type="submit"><i className="fa fa-search"></i></button><br /><br />
+                        </div>
                         <label>
                             <a href="#" onClick={this.handleSearchChange}>Advanced</a>
                         </label><br /><br />
 
                         <div id="advanced_search">
-
                             Price Range: <input id="min" type="number" name="min_price" placeholder="min" className ="PriceRange" title="Enter whole
                         number, no letters, no symbols" value={this.state.min} onChange={this.handleMinChange}/>
                             ~<input id="max" type="number" name="max_price" placeholder="max" className ="PriceRange" title="Enter whole

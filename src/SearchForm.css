@@ -4,8 +4,32 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    /*border: 5px solid indigo;*/
+    overflow: hidden;
+    background-color: #e9e9e9;
+    border: 5px solid indigo;
 }
+
+.SearchForm .SearchBar input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+}
+
+.SearchForm .SearchBar button {
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.SearchForm .SearchBar button:hover {
+    background: #ccc;
+}
+
 .PriceRange {
     width: 75px;
 }
