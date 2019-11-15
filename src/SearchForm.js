@@ -6,10 +6,23 @@ import CraigsList from './Craigslist';
 import './SearchForm.css';
 
 const dummyData = [
-    new SearchResult("wii", "149", "amazon", "amazon.com/xbox-1"),
-    new SearchResult("wii", "121", "craigslist", "seattle.craigslist.org/used-wii-3"),
-    new SearchResult("waffle maker", "21", "craigslist", "seattle.craigslist.org/good-waffle-maker-3"),
-    new SearchResult("waffle maker", "49", "ebay", "ebay.com/really-good-waffle-maker")
+    new SearchResult("wii", "149.00", "ebay", "https://www.ebay.com/wii-1"),
+    new SearchResult("wii", "121.00", "craigslist", "https://www.seattle.craigslist.org/used-wii-3"),
+    new SearchResult("wii", "93.00", "craigslist", "https://www.college-station.craigslist.org/used-wii-3"),
+    new SearchResult("wii", "599.00", "craigslist", "https://www.moscow.craigslist.org/cheeki-wii-VERY-GOOD"),
+    new SearchResult("wii", "219.00", "craigslist", "https://www.san-francisco.craigslist.org/used-wii-3"),
+    new SearchResult("wii", "145.00", "ebay", "https://www.ebay.com/used-wii-2"),
+    new SearchResult("wii", "132.00", "ebay", "https://www.ebay.com/wii-7"),
+    new SearchResult("wii", "135.00", "newegg", "https://www.newegg.com/wii-7"),
+    new SearchResult("wii", "299.00", "craigslist", "https://www.seattle.craigslist.org/GOOD-Wii"),
+    new SearchResult("wii", "159.00", "ebay", "https://www.ebay.com/used-wii-3"),
+    new SearchResult("wii", "159.00", "ebay", "https://www.ebay.com/used-wii-1"),
+    new SearchResult("wii", "140.00", "newegg", "https://www.newegg.com/wii-3"),
+    new SearchResult("wii", "105.00", "newegg", "https://www.newegg.com/wii-7"),
+    new SearchResult("wii", "103.00", "craigslist", "https://www.seattle.craigslist.org/used-wii-3"),
+    new SearchResult("waffle maker", "21.00", "craigslist", "https://www.seattle.craigslist.org/good-waffle-maker-3"),
+    new SearchResult("waffle maker", "49.00", "ebay", "https://www.ebay.com/really-good-waffle-maker"),
+    new SearchResult("test", "9999999999.99", "ebay", "https://www.ebay.com")
 ];
 
 // Constants, maybe put this in class later?
@@ -32,6 +45,8 @@ class SearchForm extends React.Component {
 
         // Misc State Vars
         this.advancedSearch = false;
+        this.results = []
+        this.filteredResults = [];
 
         // Function Binding
         this.handleChange = this.handleChange.bind(this);
@@ -83,6 +98,8 @@ class SearchForm extends React.Component {
         }
         //
 
+        this.results = results;
+
         if (this.state.productSort.localeCompare("ascending") === 0) {      // sorting
             results.sort(function(a, b) { return parseInt(a.price, 10) - parseInt(b.price, 10); });
         } else if (this.state.productSort.localeCompare("descending") === 0) {
@@ -124,8 +141,15 @@ class SearchForm extends React.Component {
                 flag = true;
             }
 
+            if (this.state.site.localeCompare("all") !== 0) {       // if the result is not in the specified marketplace
+                if (this.state.site.localeCompare(results[i].site) !== 0) {
+                    flag = false;
+                }
+            }
+
             if (flag === true) {
-                items.push(<li key={i}>Name: {results[i].name}, Price: {results[i].price}, Site: <a href={results[i].url}>{results[i].site}</a></li>);
+                //this.filteredResults.push(results[i]);
+                items.push(<li key={i}>Name: {results[i].name}, ${results[i].price}, <a href={results[i].url} target="_blank">{results[i].site}</a><br /><br /></li>);
             }
         }
 
@@ -156,7 +180,31 @@ class SearchForm extends React.Component {
             min: this.state.min,
             max: this.state.max,
             productSort: this.state.productSort
-        })
+        });
+
+        if (this.results.length > 0) {
+            console.log("memes");
+            let items = [];
+            for (let i = 0; i < this.results.length; i++) {
+                let flag = true;
+                if (event.target.value.localeCompare("all") !== 0) {       // if the result is not in the specified marketplace
+                    if (event.target.value.localeCompare(this.results[i].site) !== 0) {
+                        flag = false;
+                    }
+                }
+
+                if (flag === true) {
+                    items.push(<li key={i}>Name: {this.results[i].name}, ${this.results[i].price}, <a href={this.results[i].url} target="_blank">{this.results[i].site}</a><br /><br /></li>);
+                }
+            }
+
+            ReactDOM.render(
+                <ul>
+                    {items}
+                </ul>,
+                document.getElementById('results')
+            );
+        }
     }
 
     handleMinChange(event) {
@@ -186,7 +234,36 @@ class SearchForm extends React.Component {
             min: this.state.min,
             max: this.state.max,
             productSort: event.target.value
-        })
+        });
+
+        if (this.results.length > 0) {
+            if (event.target.value.localeCompare("ascending") === 0) {      // sorting
+                this.results.sort(function(a, b) { return parseInt(a.price, 10) - parseInt(b.price, 10); });
+            } else if (event.target.value.localeCompare("descending") === 0) {
+                this.results.sort(function(a, b) { return parseInt(b.price, 10) - parseInt(a.price, 10); });
+            }
+
+            let items = [];
+            for (let i = 0; i < this.results.length; i++) {
+                let flag = true;
+                if (this.state.site.localeCompare("all") !== 0) {       // if the result is not in the specified marketplace
+                    if (this.state.site.localeCompare(this.results[i].site) !== 0) {
+                        flag = false;
+                    }
+                }
+
+                if (flag === true) {
+                    items.push(<li key={i}>Name: {this.results[i].name}, ${this.results[i].price}, <a
+                        href={this.results[i].url} target="_blank">{this.results[i].site}</a><br/><br/></li>);
+                }
+            }
+            ReactDOM.render(
+                <ul>
+                    {items}
+                </ul>,
+                document.getElementById('results')
+            );
+        }
     }
 
     handleSearchChange(event) {
@@ -245,8 +322,8 @@ class SearchForm extends React.Component {
                         number, no letters, no symbols" value={this.state.max} onChange={this.handleMaxChange}/><br /><br />
 
                             Sort Products by Price: <label className="radio-inline">
-                            <input id="noSort" type="radio" name="sort" value="none" onChange={this.handleSortChange} defaultChecked />  No Sort
-                        </label>
+                                <input id="noSort" type="radio" name="sort" value="none" onChange={this.handleSortChange} defaultChecked />  No Sort
+                            </label>
 
                             <label className="radio-inline">
                                 <input id="ascending" type="radio" name="sort" value="ascending" onChange={this.handleSortChange} />  Ascending
@@ -257,8 +334,8 @@ class SearchForm extends React.Component {
                             </label><br /><br />
 
                             Marketplaces: <label className="radio-inline">
-                            <input id="all" type="radio" name="site" value="all" onChange={this.handleSiteChange} defaultChecked />  All
-                        </label>
+                                <input id="all" type="radio" name="site" value="all" onChange={this.handleSiteChange} defaultChecked />  All
+                            </label>
 
                             <label className="radio-inline">
                                 <input id="amazon" type="radio" name="site" value="amazon" onChange={this.handleSiteChange} />  Amazon
