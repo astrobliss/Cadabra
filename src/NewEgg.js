@@ -1,14 +1,13 @@
 import SearchResult from "./SearchResult";
 
-class CraigsList {
+class NewEgg {
     constructor(sort) {
-            this.city = 'seattle';    // default, this would need to be changed in a production build
-            this.baseHost = `http://${this.city}.craigslist.org/search/sss?format=rss&sort=${CraigsList.sortType[sort]}&query=`
+        this.baseHost = `https://www.newegg.com/d/Product/RSS?Submit=ENE&IsNodeId=1&Order=${NewEgg.sortType[sort]}
+        &ShowDeactivatedMark=False&Description=`
     }
-
-    static sortType= {
-        'ASCENDING': 'asc',
-        'DECENDING': 'dec',
+    static sortType = {
+        'ASCENDING': 'PRICE',
+        'DECENDING': 'PRICED',
         'NOSORT': ''
     };
 
@@ -24,10 +23,10 @@ class CraigsList {
                 $(data).find("item").each(function () {
                     var curItem = $(this);
                     let titleText = curItem.find("title").text();
-                    let dollarSignHex = '&#x0024;';
-                    let name = titleText.substr(0,titleText.lastIndexOf(dollarSignHex));
-                    let price = titleText.substr(titleText.lastIndexOf(dollarSignHex)+dollarSignHex.length());
-                    let site = 'craigslist';
+                    let priceStart = 1;
+                    let name = titleText.substr(titleText.indexOf(' - ') + 3);
+                    let price = titleText.substr(priceStart,titleText.indexOf(' '));
+                    let site = 'newegg';
                     let url = curItem.find("link").text();
                     results.push(new SearchResult(name,price,site,url));
                 });
@@ -37,4 +36,4 @@ class CraigsList {
     }
 }
 
-export default CraigsList;
+export default NewEgg;
