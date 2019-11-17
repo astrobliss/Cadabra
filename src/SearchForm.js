@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SearchResult from "./SearchResult";
-import Ebay from './Ebay';
 import CraigsList from './Craigslist';
 import './SearchForm.css';
+import NewEgg from "./NewEgg";
 
 const dummyData = [
     new SearchResult("wii", "149.00", "ebay", "https://www.ebay.com/wii-1"),
@@ -28,6 +28,7 @@ const dummyData = [
 // Constants, maybe put this in class later?
 const defaultSite = 'all';
 const defaultSort = 'none';
+const defaultResultLimit = 10;      // limits how many results we pull from the APIs
 
 class SearchForm extends React.Component {
     constructor(props) {
@@ -41,7 +42,8 @@ class SearchForm extends React.Component {
         };
 
         // API objects
-        this.craigsList = new CraigsList();
+        this.craigslist = new CraigsList('NOSORT');
+        this.newegg = new NewEgg('NOSORT');
 
         // Misc State Vars
         this.advancedSearch = false;
@@ -80,22 +82,38 @@ class SearchForm extends React.Component {
 
         let results = [];       // array of SearchResult objects
 
-        // Call APIs, fill in results with the returned information
+        //// Call APIs, fill in results with the returned information
 
-        // Amazon
+        // Newegg
+        let apiResults = []
+        if (this.state.site === "newegg" || this.state.site === "all") {
+            apiResults = this.newegg.searchItem(this.state.value);
+            for (let i = 0; i < defaultResultLimit && i < apiResults.length; i++) {
+                results.push(apiResults[i]);
+            }
+        }
 
         // Ebay
+        if (this.state.site === "ebay" || this.state.site === "all") {
+
+        }
 
         // Craigslist
+        if (this.state.site === "craigslist" || this.state.site === "all") {
+            apiResults = this.craigslist.searchItem(this.state.value);
+            for (let i = 0; i < defaultResultLimit && i < apiResults.length; i++) {
+                results.push(apiResults[i]);
+            }
+        }
 
-        // Render results to webpage
+        //// Render results to webpage
 
         // Testing
-        for (let i = 0; i < dummyData.length; i++) {
+        /*for (let i = 0; i < dummyData.length; i++) {
             if (dummyData[i].name === this.state.value) {
                 results.push(dummyData[i]);
             }
-        }
+        }*/
         //
 
         this.results = results;
@@ -183,7 +201,6 @@ class SearchForm extends React.Component {
         });
 
         if (this.results.length > 0) {
-            console.log("memes");
             let items = [];
             for (let i = 0; i < this.results.length; i++) {
                 let flag = true;
@@ -338,7 +355,7 @@ class SearchForm extends React.Component {
                             </label>
 
                             <label className="radio-inline">
-                                <input id="amazon" type="radio" name="site" value="amazon" onChange={this.handleSiteChange} />  Amazon
+                                <input id="amazon" type="radio" name="site" value="newegg" onChange={this.handleSiteChange} />  Newegg
                             </label>
 
                             <label className="radio-inline">

@@ -1,4 +1,5 @@
 import SearchResult from "./SearchResult";
+import $ from "jquery"
 
 class NewEgg {
     constructor(sort) {
@@ -12,6 +13,7 @@ class NewEgg {
     };
 
     searchItem(item) {      // returns an array of SearchResult objects
+        console.log(`Searching for ${item} on NewEgg...`);
         let results = [];
         let feed = this.baseHost + item;
         $.ajax(feed, {
@@ -19,6 +21,7 @@ class NewEgg {
                 xml:"application/rss+xml"
             },
             dataType:"xml",
+            async: false,
             success:function(data) {
                 $(data).find("item").each(function () {
                     var curItem = $(this);

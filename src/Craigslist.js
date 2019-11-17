@@ -1,9 +1,12 @@
 import SearchResult from "./SearchResult";
+import $ from "jquery"
+
+let res = [];
 
 class CraigsList {
     constructor(sort) {
-            this.city = 'seattle';    // default, this would need to be changed in a production build
-            this.baseHost = `http://${this.city}.craigslist.org/search/sss?format=rss&sort=${CraigsList.sortType[sort]}&query=`
+        this.city = 'seattle';    // default, this would need to be changed in a production build
+        this.baseHost = `http://${this.city}.craigslist.org/search/sss?format=rss&sort=${CraigsList.sortType[sort]}&query=`
     }
 
     static sortType= {
@@ -13,6 +16,7 @@ class CraigsList {
     };
 
     searchItem(item) {      // returns an array of SearchResult objects
+        console.log(`Searching for ${item} on Craigslist...`);
         let results = [];
         let feed = this.baseHost + item;
         $.ajax(feed, {
@@ -20,13 +24,14 @@ class CraigsList {
                 xml:"application/rss+xml"
             },
             dataType:"xml",
+            async: false,
             success:function(data) {
                 $(data).find("item").each(function () {
                     var curItem = $(this);
                     let titleText = curItem.find("title").text();
                     let dollarSignHex = '&#x0024;';
                     let name = titleText.substr(0,titleText.lastIndexOf(dollarSignHex));
-                    let price = titleText.substr(titleText.lastIndexOf(dollarSignHex)+dollarSignHex.length());
+                    let price = titleText.substr(titleText.lastIndexOf(dollarSignHex)+dollarSignHex.length);
                     let site = 'craigslist';
                     let url = curItem.find("link").text();
                     results.push(new SearchResult(name,price,site,url));
