@@ -10,7 +10,7 @@ class CraigsList {
     static sortType= {
         'ASCENDING': 'asc',
         'DECENDING': 'dec',
-        'NOSORT': ''
+        'NOSORT': 'rel'
     };
 
     searchItem(item) {      // returns an array of SearchResult objects
@@ -35,8 +35,12 @@ class CraigsList {
                     var curItem = $(this);
                     let titleText = curItem.find("title").text();
                     let dollarSignHex = '&#x0024;';
-                    let name = titleText.substr(0,titleText.lastIndexOf(dollarSignHex));
-                    let price = titleText.substr(titleText.lastIndexOf(dollarSignHex)+dollarSignHex.length);
+                    let name = titleText;
+                    let price = 0;
+                    if(titleText.indexOf(dollarSignHex)!==-1) {
+                        price = titleText.substr(titleText.lastIndexOf(dollarSignHex) + dollarSignHex.length);
+                        name = titleText.substr(0,titleText.lastIndexOf(dollarSignHex));
+                    }
                     let site = 'craigslist';
                     let url = curItem.find("link").text();
                     results.push(new SearchResult(name,price,site,url));
