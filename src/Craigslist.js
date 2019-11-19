@@ -37,7 +37,7 @@ class CraigsList {
                     let dollarSignHex = '&#x0024;';
                     let name = titleText;
                     let price = 0;
-                    if(titleText.indexOf(dollarSignHex)!==-1) {
+                    if(titleText.indexOf(dollarSignHex)!=-1) {
                         price = titleText.substr(titleText.lastIndexOf(dollarSignHex) + dollarSignHex.length);
                         name = titleText.substr(0,titleText.lastIndexOf(dollarSignHex));
                     }
