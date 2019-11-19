@@ -21,8 +21,15 @@ class NewEgg {
                 xml:"application/rss+xml"
             },
             dataType:"xml",
-            async: false,
-            success:function(data) {
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Origin": "https://www.newegg.com",
+                "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+            },
+            async: false,                                   // prevents the function from returning without any results
+            success: function(data) {
                 $(data).find("item").each(function () {
                     var curItem = $(this);
                     let titleText = curItem.find("title").text();

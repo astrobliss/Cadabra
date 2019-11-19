@@ -107,15 +107,6 @@ class SearchForm extends React.Component {
         }
 
         //// Render results to webpage
-
-        // Testing
-        /*for (let i = 0; i < dummyData.length; i++) {
-            if (dummyData[i].name === this.state.value) {
-                results.push(dummyData[i]);
-            }
-        }*/
-        //
-
         this.results = results;
 
         if (this.state.productSort.localeCompare("ascending") === 0) {      // sorting
@@ -166,8 +157,7 @@ class SearchForm extends React.Component {
             }
 
             if (flag === true) {
-                //this.filteredResults.push(results[i]);
-                items.push(<li key={i}>Name: {results[i].name}, ${results[i].price}, <a href={results[i].url} target="_blank">{results[i].site}</a><br /><br /></li>);
+                items.push(<li key={i}>{results[i].name}, ${results[i].price}, <a href={results[i].url} target="_blank">{results[i].site}</a><br /><br /></li>);
             }
         }
 

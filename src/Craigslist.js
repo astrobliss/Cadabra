@@ -1,12 +1,10 @@
 import SearchResult from "./SearchResult";
 import $ from "jquery"
 
-let res = [];
-
 class CraigsList {
     constructor(sort) {
         this.city = 'seattle';    // default, this would need to be changed in a production build
-        this.baseHost = `http://${this.city}.craigslist.org/search/sss?format=rss&sort=${CraigsList.sortType[sort]}&query=`
+        this.baseHost = `https://${this.city}.craigslist.org/search/sss?format=rss&sort=${CraigsList.sortType[sort]}&query=`
     }
 
     static sortType= {
@@ -24,6 +22,13 @@ class CraigsList {
                 xml:"application/rss+xml"
             },
             dataType:"xml",
+            /*headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Allow-Origin": `https://${this.city}.craigslist.org`,
+                "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+            },*/
             async: false,
             success:function(data) {
                 $(data).find("item").each(function () {
