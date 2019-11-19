@@ -2,9 +2,9 @@ import SearchResult from "./SearchResult";
 import $ from "jquery"
 
 class CraigsList {
-    constructor(sort) {
+    constructor(sort) {     // we use "https://cors-anywhere.herokuapp.com/" as a proxy to circumvent CORS errors
         this.city = 'seattle';    // default, this would need to be changed in a production build
-        this.baseHost = `https://${this.city}.craigslist.org/search/sss?format=rss&sort=${CraigsList.sortType[sort]}&query=`
+        this.baseHost = `https://cors-anywhere.herokuapp.com/https://${this.city}.craigslist.org/search/sss?format=rss&sort=${CraigsList.sortType[sort]}&query=`
     }
 
     static sortType= {
@@ -22,13 +22,7 @@ class CraigsList {
                 xml:"application/rss+xml"
             },
             dataType:"xml",
-            /*headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Allow-Origin": `https://${this.city}.craigslist.org`,
-                "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
-                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-            },*/
+            crossDomain: true,
             async: false,
             success:function(data) {
                 $(data).find("item").each(function () {

@@ -2,10 +2,11 @@ import SearchResult from "./SearchResult";
 import $ from "jquery"
 
 class NewEgg {
-    constructor(sort) {
-        this.baseHost = `https://www.newegg.com/d/Product/RSS?Submit=ENE&IsNodeId=1&Order=${NewEgg.sortType[sort]}
+    constructor(sort) {     // we use "https://cors-anywhere.herokuapp.com/" as a proxy to circumvent CORS errors
+        this.baseHost = `https://cors-anywhere.herokuapp.com/https://www.newegg.com/d/Product/RSS?Submit=ENE&IsNodeId=1&Order=${NewEgg.sortType[sort]}
         &ShowDeactivatedMark=False&Description=`
     }
+
     static sortType = {
         'ASCENDING': 'PRICE',
         'DECENDING': 'PRICED',
@@ -21,13 +22,7 @@ class NewEgg {
                 xml:"application/rss+xml"
             },
             dataType:"xml",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Allow-Origin": "https://www.newegg.com",
-                "Access-Control-Allow-Methods": "POST, GET, OPTIONS, DELETE, PUT",
-                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-            },
+            crossDomain: true,
             async: false,                                   // prevents the function from returning without any results
             success: function(data) {
                 $(data).find("item").each(function () {
