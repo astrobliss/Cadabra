@@ -33,9 +33,10 @@ class NewEgg {
                 $(data).find("item").each(function () {
                     var curItem = $(this);
                     let titleText = curItem.find("title").text();
-                    let priceStart = 1;
-                    let name = titleText.substr(titleText.indexOf(' - ') + 3);
-                    let price = titleText.substr(priceStart,titleText.indexOf(' '));
+                    let pricePrefix = '$';
+                    let titlePrefix = ' - ';
+                    let name = titleText.substr(titleText.indexOf(titlePrefix) + titlePrefix.length);
+                    let price = titleText.substr(titleText.indexOf(pricePrefix)+pricePrefix.length,titleText.indexOf(' '));
                     let site = 'newegg';
                     let url = curItem.find("link").text();
                     results.push(new SearchResult(name,price,site,url));
