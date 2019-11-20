@@ -15,6 +15,10 @@
 ## To Deploy to Github Pages
 - In the terminal: >npm run deploy
 
+## Dependencies
+- jQuery >npm install jquery
+- React
+
 ## SCRUM Meeting Minutes
 Meeting: Sprint 1 
 Date: 11/7/19
