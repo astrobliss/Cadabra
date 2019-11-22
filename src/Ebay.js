@@ -25,15 +25,19 @@ class Ebay {
             success: function(xmlResponse) {
                 $(xmlResponse).find("item").each(function () {
                     var curItem = $(this);
-                    let url = curItem.find("link").text();
-                    let description = curItem.find('description').text();
                     let pricePrefix = '<strong>$';
-                    let priceIndex = description.indexOf(pricePrefix)+pricePrefix.length;
                     let priceSuffix = '</strong>';
+                    let imageUrlPrefix = '<img border="0" src="';
+                    let imageUrlSuffix = '">';
+                    let descriptionText = curItem.find('description').text();
+                    let priceIndex = descriptionText.indexOf(pricePrefix)+pricePrefix.length;
+                    let imageUrlIndex = descriptionText.indexOf(imageUrlPrefix)+imageUrlPrefix.length;
+                    let url = curItem.find("link").text();
                     let name = curItem.find('title').text();
-                    let price = description.substr(priceIndex,description.indexOf(priceSuffix,priceIndex)-priceIndex)
+                    let price = descriptionText.substr(priceIndex,descriptionText.indexOf(priceSuffix,priceIndex)-priceIndex);
+                    let imageUrl = descriptionText.substr(imageUrlIndex,descriptionText.indexOf(imageUrlSuffix,imageUrlIndex)-imageUrlIndex);
                     let site = 'ebay';
-                    results.push(new SearchResult(name,price,site,url));
+                    results.push(new SearchResult(name,price,site,url,imageUrl));
                 });
             }
         });

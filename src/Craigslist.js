@@ -39,7 +39,8 @@ class CraigsList {
                     }
                     let site = 'craigslist';
                     let url = curItem.find("link").text();
-                    results.push(new SearchResult(name,price,site,url));
+                    let imageUrl = curItem.find('enc\\:enclosure').attr('resource');
+                    results.push(new SearchResult(name,price,site,url,imageUrl));
                 });
             }
         });

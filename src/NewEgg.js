@@ -29,12 +29,21 @@ class NewEgg {
                     let titleText = curItem.find("title").text();
                     let pricePrefix = '$';
                     let titlePrefix = ' - ';
+                    let imagePrefix = '<img border="0" src="';
+                    let imageSuffix = '" ';
+                    let descriptionText = curItem.find("description").text();
+                    let imageIndex = descriptionText.indexOf(imagePrefix)+imagePrefix.length;
                     let name = titleText.substr(titleText.indexOf(titlePrefix) + titlePrefix.length);
                     let price = titleText.substr(titleText.indexOf(pricePrefix)+pricePrefix.length,titleText.indexOf(' '));
                     let site = 'newegg';
                     let url = curItem.find("link").text();
+                    let imageUrl = 'https:' + descriptionText.substr(imageIndex,descriptionText.indexOf(imageSuffix,imageIndex)-imageIndex);
                     results.push(new SearchResult(name,price,site,url));
                 });
+            },
+            error: function(data){
+                console.log("FAILED");
+                console.log('START'+$(data).text())
             }
         });
         return results;

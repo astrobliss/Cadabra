@@ -4,6 +4,7 @@ class SearchResult {
         this.price = price;
         this.site = site;
         this.url = url;
+        this.imageURL = imageURL;
     }
 }
 
