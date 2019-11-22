@@ -17,15 +17,14 @@ class NewEgg {
         console.log(`Searching for ${item} on NewEgg...`);
         let results = [];
         let feed = this.baseHost + item;
-        $.ajax(feed, {
-            accepts:{
-                xml:"application/rss+xml"
-            },
+        $.ajax( {
+            url: feed,
+            type: 'GET',
             dataType:"xml",
             crossDomain: true,
-            async: false,                                   // prevents the function from returning without any results
-            success: function(data) {
-                $(data).find("item").each(function () {
+            async: false,
+            success: function(xmlResponse) {
+                $(xmlResponse).find("item").each(function () {
                     var curItem = $(this);
                     let titleText = curItem.find("title").text();
                     let pricePrefix = '$';
