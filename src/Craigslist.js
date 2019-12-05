@@ -3,7 +3,7 @@ import $ from "jquery"
 
 class CraigsList {
     constructor(sort) {     // we use "https://cors-anywhere.herokuapp.com/" as a proxy to circumvent CORS errors
-        this.city = 'seattle';    // default, this would need to be changed in a production build
+        this.city = 'houston';    // default, this would need to be changed in a production build
         this.baseHost = `https://cors-anywhere.herokuapp.com/https://${this.city}.craigslist.org/search/sss?format=rss&
         sort=${CraigsList.sortType[sort]}&query=`
     }
