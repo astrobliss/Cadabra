@@ -37,8 +37,8 @@ class NewEgg {
                     let price = titleText.substr(titleText.indexOf(pricePrefix)+pricePrefix.length,titleText.indexOf(' '));
                     let site = 'newegg';
                     let url = curItem.find("link").text();
-                    let imageUrl = 'https:' + descriptionText.substr(imageIndex,descriptionText.indexOf(imageSuffix,imageIndex)-imageIndex);
-                    results.push(new SearchResult(name,price,site,url));
+                    let imageURL = 'https:' + descriptionText.substr(imageIndex,descriptionText.indexOf(imageSuffix,imageIndex)-imageIndex);
+                    results.push(new SearchResult(name,price,site,url,imageURL));
                 });
             },
             error: function(data){

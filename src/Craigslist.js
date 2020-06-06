@@ -26,7 +26,6 @@ class CraigsList {
             crossDomain: true,
             async: false,
             success:function(data) {
-
                 $(data).find("item").each(function () {
                     var curItem = $(this);
                     let titleText = curItem.find("title").text();
